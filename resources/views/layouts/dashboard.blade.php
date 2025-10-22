@@ -157,6 +157,9 @@
 <script src="{{ asset('mazer/dist/assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
 <script src="{{ asset('mazer/dist/assets/static/js/pages/simple-datatables.js') }}"></script>
 
+<!-- Untuk handle sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Untuk handle flatpickr -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -168,7 +171,7 @@
     });
 </script>
 
-
+@stack('scripts')
 </body>
 
 </html>
