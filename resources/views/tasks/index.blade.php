@@ -81,8 +81,13 @@
 
                                 @endif
 
-                                <a href="" class="btn btn-warning btn-sm">Edit</a>
-                                <a href="" class="btn btn-secondary btn-sm">Delete</a>
+                                <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display: inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
+                                </form>
                             </td>
                         </tr>
 

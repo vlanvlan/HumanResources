@@ -162,9 +162,9 @@
 
 <script>
     // Inisialisasi flatpickr pada elemen dengan kelas 'datepicker'
-    let dateTime = flatpickr('.datetime', {
-        enableTime: true,
-        dateFormat: "Y-m-d H:i",
+    let date = flatpickr('.date', {
+        // enableTime: true,
+        dateFormat: "Y-m-d",
     });
 </script>
 
