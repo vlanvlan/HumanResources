@@ -79,7 +79,7 @@
                         <select name="status" id="status" class="form-control @error('status') is-invalid @enderror" required>
                             {{-- <option value="done">Done</option> --}}
                             <option value="pending" @if(old('status', $task->status) == 'pending') selected @endif>Pending</option>
-                            <option value="on progress" @if(old('status', $task->status) == 'on progress') selected @endif>On Progress</option>
+                            <option value="On progress" @if(old('status', $task->status) == 'On progress') selected @endif>On Progress</option>
                         </select>
                         @error('status')
                             <div class="invalid-feedback">{{ $message }}</div>
