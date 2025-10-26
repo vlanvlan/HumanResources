@@ -12,14 +12,14 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Employees</h3>
-                <p class="text-subtitle text-muted">Handle employee data or profile</p>
+                <h3>Leave Request</h3>
+                <p class="text-subtitle text-muted">Manage Leave Request Data</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Employees</li>
+                        <li class="breadcrumb-item" aria-current="page">Leave Request</li>
                         <li class="breadcrumb-item active" aria-current="page">Index</li>
                     </ol>
                 </nav>
@@ -36,7 +36,7 @@
             <div class="card-body">
 
                 <div class="d-flex">
-                    <a href="{{ route('employees.create')}}" class="btn btn-primary mb-3 ms-auto">New Employee</a>
+                    <a href="{{ route('leave-requests.create')}}" class="btn btn-primary mb-3 ms-auto">New Leave Request</a>
                 </div>
 
                 @if (session('success'))
@@ -48,39 +48,41 @@
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Hire Date</th>
-                            <th>Department</th>
-                            <th>Role</th>
+                            <th>Name</th>
+                            <th>Leave Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
                             <th>Status</th>
-                            <th>Salary</th>
                             <th>Option</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($employees as $employee)
+                        @foreach ($leaveRequests as $leaveRequest)
 
                         <tr>
-                            <td>{{ $employee->fullname }}</td>
-                            <td>{{ $employee->email }}</td>
-                            <td>{{ $employee->hire_date }}</td>
-                            <td>{{ $employee->department->name }}</td>
-                            <td>{{ $employee->role->name }}</td>
+                            <td>{{ $leaveRequest->employee->fullname }}</td>
+                            <td>{{ $leaveRequest->leave_type }}</td>
+                            <td>{{ $leaveRequest->start_date }}</td>
+                            <td>{{ $leaveRequest->end_date }}</td>
                             <td>
-                                @if ($employee->status == 'active')
-                                    <span class="text-success">Active</span>
-                                @else
-                                    <span class="text-danger">Inactive</span>
+                                @if ($leaveRequest->status == 'pending')
+                                    <span class="badge bg-warning">Pending</span>
+                                @elseif ($leaveRequest->status == 'approved')
+                                    <span class="badge bg-success">Approved</span>
+                                @elseif ($leaveRequest->status == 'rejected')
+                                    <span class="badge bg-danger">Rejected</span>
                                 @endif
                             </td>
-
-                            <td>{{ number_format($employee->salary) }}</td>
-
                             <td>
-                                <a href="{{ route('employees.show', $employee->id) }}" class="btn btn-info btn-sm">View</a>
-                                <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" class="d-inline delete-form">
+                                @if ($leaveRequest->status == 'pending' || $leaveRequest->status == 'rejected')
+                                    <a href="{{ route('leave-requests.approve', $leaveRequest->id) }}" class="btn btn-success btn-sm">Approve</a>
+                                @else
+                                    <a href="{{ route('leave-requests.reject', $leaveRequest->id) }}" class="btn btn-danger btn-sm">Reject</a>
+                                @endif
+
+                                <a href="{{ route('leave-requests.edit', $leaveRequest->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                                <form action="{{ route('leave-requests.destroy', $leaveRequest->id) }}" method="POST" class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>

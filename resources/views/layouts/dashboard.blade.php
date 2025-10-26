@@ -27,7 +27,7 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="{{ asset('mazer/dist/assets/compiled/svg/logo.svg') }}" alt="Logo" srcset=""></a>
+                            <a href="{{ url('/dashboard') }}"><img src="{{ asset('mazer/dist/assets/compiled/svg/logo.svg') }}" alt="Logo" srcset=""></a>
                                 </div>
                                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
@@ -65,60 +65,69 @@
                         <div class="sidebar-menu">
                             <ul class="menu">
                                 <li class="sidebar-title">Menu</li>
+
+                                @if (session('role') === 'Admin')
+                                    {{-- Admin Menu Items --}}
                                     <li class="sidebar-item active ">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/dashboard') }}" class='sidebar-link'>
                                             <i class="bi bi-grid-fill"></i>
                                             <span>Dashboard</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/tasks') }}" class='sidebar-link'>
                                             <i class="bi bi-check-circle-fill"></i>
                                             <span>Tasks</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/employees') }}" class='sidebar-link'>
                                             <i class="bi bi-people-fill"></i>
                                             <span>Employees</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/departments') }}" class='sidebar-link'>
                                             <i class="bi bi-briefcase"></i>
                                             <span>Departments</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/roles') }}" class='sidebar-link'>
                                             <i class="bi bi-tag"></i>
                                             <span>Roles</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/presences') }}" class='sidebar-link'>
                                             <i class="bi bi-table"></i>
                                             <span>Presences</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/payrolls') }}" class='sidebar-link'>
                                             <i class="bi bi-currency-dollar"></i>
                                             <span>Payrolls</span>
                                         </a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/leave-requests') }}" class='sidebar-link'>
                                             <i class="bi bi-shift-fill"></i>
                                             <span>Leave Requests</span>
                                         </a>
                                     </li>
+                                @endif
+
+                                @if(in_array(session('role'), ['Admin', 'Employee']))
+                                    {{-- Common Menu Items for Admin and Employee --}}
+
                                     <li class="sidebar-item">
-                                        <a href="index.html" class='sidebar-link'>
+                                        <a href="{{ url('/logout') }}" class='sidebar-link'>
                                             <i class="bi bi-box-arrow-right"></i>
                                             <span>Logout</span>
                                         </a>
                                     </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -168,6 +177,14 @@
     let date = flatpickr('.date', {
         // enableTime: true,
         dateFormat: "Y-m-d",
+    });
+</script>
+
+<script>
+    // Inisialisasi flatpickr pada elemen dengan kelas 'datetimepicker'
+    let datetime = flatpickr('.datetime', {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
     });
 </script>
 

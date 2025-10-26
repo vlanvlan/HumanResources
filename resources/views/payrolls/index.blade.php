@@ -12,14 +12,14 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Employees</h3>
-                <p class="text-subtitle text-muted">Handle employee data or profile</p>
+                <h3>Payroll</h3>
+                <p class="text-subtitle text-muted">Handle payroll data</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Employees</li>
+                        <li class="breadcrumb-item" aria-current="page">Payroll</li>
                         <li class="breadcrumb-item active" aria-current="page">Index</li>
                     </ol>
                 </nav>
@@ -36,7 +36,7 @@
             <div class="card-body">
 
                 <div class="d-flex">
-                    <a href="{{ route('employees.create')}}" class="btn btn-primary mb-3 ms-auto">New Employee</a>
+                    <a href="{{ route('payrolls.create')}}" class="btn btn-primary mb-3 ms-auto">New Payroll</a>
                 </div>
 
                 @if (session('success'))
@@ -48,39 +48,38 @@
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Hire Date</th>
-                            <th>Department</th>
-                            <th>Role</th>
-                            <th>Status</th>
+                            <th>Name</th>
                             <th>Salary</th>
+                            <th>Deductions</th>
+                            <th>Bonuses</th>
+                            <th>Net Salary</th>
+                            <th>Pay Date</th>
                             <th>Option</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($employees as $employee)
+                        @foreach ($payrolls as $payroll)
 
                         <tr>
-                            <td>{{ $employee->fullname }}</td>
-                            <td>{{ $employee->email }}</td>
-                            <td>{{ $employee->hire_date }}</td>
-                            <td>{{ $employee->department->name }}</td>
-                            <td>{{ $employee->role->name }}</td>
+                            <td>{{ $payroll->employee->fullname }}</td>
+                            <td>{{ number_format($payroll->salary, 2) }}</td>
+                            <td>{{ number_format($payroll->deductions, 2) }}</td>
+                            <td>{{ number_format($payroll->bonuses, 2) }}</td>
+                            <td>{{ number_format($payroll->net_salary, 2) }}</td>
+                            <td>{{ $payroll->pay_date }}</td>
                             <td>
-                                @if ($employee->status == 'active')
-                                    <span class="text-success">Active</span>
+                                @if ($payroll->status == 'paid')
+                                    <span class="badge bg-success">Paid</span>
                                 @else
-                                    <span class="text-danger">Inactive</span>
+                                    <span class="badge bg-warning">Unpaid</span>
                                 @endif
                             </td>
 
-                            <td>{{ number_format($employee->salary) }}</td>
-
                             <td>
-                                <a href="{{ route('employees.show', $employee->id) }}" class="btn btn-info btn-sm">View</a>
-                                <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" class="d-inline delete-form">
+                                <a href="{{ route('payrolls.show', $payroll->id) }}" class="btn btn-info btn-sm">Salary Slip</a>
+                                <a href="{{ route('payrolls.edit', $payroll->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                                <form action="{{ route('payrolls.destroy', $payroll->id) }}" method="POST" class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>
